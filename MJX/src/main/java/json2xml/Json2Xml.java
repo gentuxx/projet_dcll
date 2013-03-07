@@ -12,7 +12,7 @@ public class Json2Xml {
 	public static String conversion(String stringJson){
 		//On récupére l'intérieur des balise question
 		try {
-			return Formatage.check(new JSONObject(stringJson));
+			return FormatXMLMoodle.check(new JSONObject(stringJson));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
