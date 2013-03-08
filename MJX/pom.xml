@@ -15,19 +15,24 @@
   		<version>2.0</version>
   	</dependency>
   	<dependency>
-  		<groupId>com.puppycrawl.tools</groupId>
-  		<artifactId>checkstyle</artifactId>
-  		<version>5.6</version>
-  	</dependency>
-  	<dependency>
-  		<groupId>net.sourceforge.pmd</groupId>
-  		<artifactId>pmd</artifactId>
-  		<version>5.0.2</version>
-  	</dependency>
-  	<dependency>
   		<groupId>junit</groupId>
   		<artifactId>junit</artifactId>
   		<version>4.11</version>
   	</dependency>
   </dependencies>
+  
+    <reporting>
+    <plugins>
+    <plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-checkstyle-plugin</artifactId>
+ 		<version>2.5</version>
+ 	</plugin>
+ 	<plugin>
+ 		<groupId>org.apache.maven.plugins</groupId>
+ 		<artifactId>maven-pmd-plugin</artifactId>
+ 		<version>2.4</version>
+ 	</plugin>
+    </plugins>
+  </reporting>
 </project>
