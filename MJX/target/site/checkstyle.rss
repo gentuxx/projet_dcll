@@ -9,7 +9,7 @@
     <copyright>&#169;2013</copyright>
     <item>
       <title>File: 4,
-             Errors: 290,
+             Errors: 57,
              Warnings: 0,
              Infos: 0
       </title>
@@ -38,21 +38,7 @@
                   0
                 </td>
                 <td>
-                  42
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#json2xml.Formatage.java">json2xml/Formatage.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  102
+                  4
                 </td>
               </tr>
                           <tr>
@@ -66,7 +52,7 @@
                   0
                 </td>
                 <td>
-                  97
+                  12
                 </td>
               </tr>
                           <tr>
@@ -80,7 +66,21 @@
                   0
                 </td>
                 <td>
-                  49
+                  8
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#json2xml.FormatXMLMoodle.java">json2xml/FormatXMLMoodle.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  33
                 </td>
               </tr>
                       </tbody>
