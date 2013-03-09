@@ -51,6 +51,8 @@ public class FormatXMLMoodle {
      */
     public static String namePart(final JSONObject contenu) 
     throws JSONException {
+        if(!contenu.has("name"))
+            return "";
         //On écrit la partie name
         String stringName = "\n<name>";
         stringName += XML.toString(contenu.get("name"));
@@ -85,6 +87,8 @@ public class FormatXMLMoodle {
                                             final String balise,
                                             final String... balisesAConvertir)
     throws JSONException {
+        if(!contenu.has(balise))
+            return "";
         Object contenuTestType = contenu.get(balise);
         if (contenuTestType instanceof JSONArray) {
             return baliseToAttribute(contenu.getJSONArray(balise)
