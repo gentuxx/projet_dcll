@@ -2,12 +2,9 @@ package json2xml;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.json.XML;
-import org.json.XMLTokener;
-
-import xml2json.Xml2Json;
 
 public class Json2Xml {
+<<<<<<< HEAD
 	
 	public static String conversion(String stringJson){
 		//On récupére l'intérieur des balise question
@@ -37,5 +34,16 @@ public class Json2Xml {
 		return stringJson;*/
 		
 	}
+=======
+>>>>>>> flo
 
+    public static String conversion(final String stringJson) {
+        //On récupére l'intérieur des balise question
+        try {
+            return FormatXMLMoodle.check(new JSONObject(stringJson));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return "Erreur";
+    }
 }
