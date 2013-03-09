@@ -11,7 +11,6 @@ public class Xml2Json {
             //pour conversion vers JSON
             JSONObject importedJson = XML.toJSONObject(stringXML);
             //Recuperation du code JSON
-            String json = importedJson.toString();
             return importedJson.toString();
         } catch (JSONException e) {
             //Erreur

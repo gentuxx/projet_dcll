@@ -22,6 +22,7 @@ public class Main {
             case 1:
             case 2:
                 print("\nA FAIRE\n");
+                break;
             case 3:
                 String xml = "<question><name>\n"
                 + "    <text>Name of question</text>\n"
@@ -45,13 +46,16 @@ public class Main {
                 print("\n Test de conversion XML -> JSON:\n");
                 print("Test XML: \n" + xml + "\n");
                 print("Résultat JSON: \n" + Xml2Json.conversion(xml) + "\n");
+                break;
             case 4:
                 String json = "{\"question\":{\"name\":{\"text\":\"Name of question\"},\"answer\":[{\"feedback\":{\"text\":\"Correct!\"},\"text\":\"My Father?\",\"fraction\":100},{\"feedback\":{\"text\":\"Ooops!\"},\"text\":\"GOD?\",\"fraction\":0}],\"questiontext\":{\"text\":\"Who am I?\",\"format\":\"html\"}}}";
                 print("\n Test de conversion JSON -> XML:\n");
                 print("Test JSON: \n" + json + "\n");
                 print("Résultat XML: \n" + Json2Xml.conversion(json)+ "\n");
+                break;
             default:
                 print("Mauvais Choix.");
+                break;
             }
             choice = 0;
         }
