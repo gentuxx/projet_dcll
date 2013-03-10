@@ -118,7 +118,7 @@ public class FormatXMLMoodle {
     }
 
 /**
- * 
+ *
  * @param contenu
  * @param balise
  * @param balisesAConvertir

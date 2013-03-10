@@ -1,12 +1,12 @@
 package xml2json;
 
 
-import java.io.BufferedReader;
+
 import java.io.File;
 
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
-import java.io.FileReader;
+
 import java.io.IOException;
 import java.io.StringWriter;
 
@@ -48,18 +48,17 @@ public class Xml2Json {
     public static String selectionnerFichier(final File f) {
         StringWriter strw = new StringWriter();
         try {
-              BufferedInputStream buff = new BufferedInputStream(new FileInputStream(f));
-              
+              BufferedInputStream buff =
+              new BufferedInputStream(new FileInputStream(f));
                int b;
-               while ((b=buff.read()) != -1)
+               while ((b = buff.read()) != -1) {
                    strw.write(b);
+               }
                strw.flush();
                strw.close();
                buff.close();
-            }
-            catch (IOException ie)
-            {
-                 ie.printStackTrace(); 
+            } catch (IOException ie) {
+                 ie.printStackTrace();
             }
         return strw.toString();
     }
