@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<pmd version="4.2.2" timestamp="2013-03-09T13:29:59.564">
-<file name="/home/florian/Developpement/DCLL/Projet/MJX/src/main/java/xml2json/Xml2Json.java">
-<violation beginline="13" endline="13" begincolumn="20" endcolumn="23" rule="UnusedLocalVariable" ruleset="Unused Code Rules" package="xml2json" class="Xml2Json" method="conversion" variable="json" externalInfoUrl="http://pmd.sourceforge.net/rules/unusedcode.html#UnusedLocalVariable" priority="3">
-Avoid unused local variables such as 'json'.
-</violation>
-</file>
-</pmd>
