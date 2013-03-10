@@ -37,7 +37,7 @@ public class XMLComparator {
       //Test avec name
         String xmlString = "<question>"
                 + "<answer fraction=\"100\">"
-                + "<text>3.14 * {R}*{R}</text>"
+                + "<text>3.14*{R}*{R}</text>"
                 + "<tolerance>0.01</tolerance>"
                 + "<tolerancetype>1</tolerancetype>"
                 + "<correctanswerformat>1</correctanswerformat>"
@@ -49,14 +49,19 @@ public class XMLComparator {
                 + "</question>";
         JSONObject json = XML.toJSONObject(xmlString);
         String jsonString = FormatXMLMoodle.check(json);
-        jsonString = jsonString.replaceAll("\n", " ");
-        xmlString = xmlString.replaceAll("\n"," ");
+        /*
+        jsonString = jsonString.replaceAll("\n","");
+        xmlString = xmlString.replaceAll("\n","");
+        jsonString = jsonString.replaceAll("\t","");
+        xmlString = xmlString.replaceAll("\t","");
         while(jsonString.contains("  ")){
             jsonString = jsonString.replaceAll("  ", " ");
         }
         while(xmlString.contains("  ")){
             xmlString = xmlString.replaceAll("  ", " ");
-        }
+        }*/
+        //System.out.println(xmlString);
+        //System.out.println(jsonString);
         System.out.println(compare(xmlString,jsonString));
     }
     
@@ -69,23 +74,30 @@ public class XMLComparator {
     public static boolean compare(String xml1, String xml2){        
         try {
             //On normalise les chaines
-            xml1 = xml1.replaceAll("\n", " ");
-            xml2 = xml2.replaceAll("\n"," ");
+            xml1 = xml1.replaceAll("\n","");
+            xml2 = xml2.replaceAll("\n","");
+            xml1 = xml1.replaceAll("\t","");
+            xml2 = xml2.replaceAll("\t","");
+            /*xml1 = xml1.replaceAll(" "," ");
+            xml2 = xml2.replaceAll(" "," ");*/
             while(xml1.contains("  ")){
                 xml1 = xml1.replaceAll("  ", " ");
             }
             while(xml2.contains("  ")){
                 xml2 = xml2.replaceAll("  ", " ");
             }
-            System.out.println(xml1 + "\n" +xml2);
+            //System.out.println(xml1 + "\n" +xml2);
+            
             //Arbres qui vont contenir les differentes valeurs pour la comparaison
             SortedMap<String, String> map1 = new TreeMap<String, String>();
             SortedMap<String, String> map2 = new TreeMap<String, String>();
+            
             //Initilisation des variables DOM
             InputSource is1 = new InputSource();
             is1.setCharacterStream(new StringReader(xml1));
             InputSource is2 = new InputSource();
             is2.setCharacterStream(new StringReader(xml2));
+            
             Document document1 = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is1);
             Document document2 = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(is2);
             
@@ -124,8 +136,13 @@ public class XMLComparator {
                 //On parcour l'intérieur récursivement
                 map.putAll(parcour(childNodes.item(i).getChildNodes()));
                 //On ajoute le noeud à la map
-                map.put(childNodes.item(i).getNodeName()+":Value", ((Element)childNodes.item(i).getFirstChild()).toString());
+                //s'il y a plusieur niveau on dit qu'il ya erray en dessous, le noeud est éclaté par la commande précédente
+                if(childNodes.item(i).getChildNodes().getLength() <= 1)
+                	map.put(childNodes.item(i).getNodeName()+":Value", (childNodes.item(i).getLastChild()).toString());
+                else
+                	map.put(childNodes.item(i).getNodeName()+":Value", "[array]");
             }
+            
             //Si il a des attributs on les ajoutes à la map
             if(childNodes.item(i).hasAttributes()){
                 for(int j = 0; j < childNodes.item(i).getAttributes().getLength(); j++)
