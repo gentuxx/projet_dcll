@@ -39,6 +39,9 @@ public class Main {
             print("0 : Quitter");
             choice = new Scanner(System.in).nextInt();
             switch(choice) {
+            case 0:
+                System.exit(0);
+                break;
             case 1:
                 //selectionner fichier
                 File fichier = null;
@@ -58,11 +61,7 @@ public class Main {
                 //Conversion du XML en JSON
                 String strConverted = Xml2Json.conversion(strToConvert);
                 //Création du fichier .json
-                File jsonResult = new File(fichier.getAbsolutePath()
-                                  .substring(0,
-                                             fichier.
-                                             getAbsolutePath().length() - 4)
-                                             + ".json");
+                File jsonResult = new File(fichier.getAbsolutePath().substring(0,fichier.getAbsolutePath().length() - 4) + ".json");
                 try {
                       jsonResult.createNewFile();
                 } catch (IOException e) {
@@ -74,14 +73,13 @@ public class Main {
                 pr = new PrintWriter(jsonResult);
                 for (int i = 0; i < strConverted.length(); i++) {
                 pr.print(strConverted.charAt(i));
-                pr.close();
                 }
+                pr.close();
                 } catch (FileNotFoundException e) {
                 e.printStackTrace();
                 }
                 print("Conversion terminée, résultat dans "
                        + jsonResult.getAbsolutePath());
-
                 break;
             case 2:
                 print("\nA FAIRE\n");
