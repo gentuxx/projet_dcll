@@ -2,7 +2,6 @@ package json2xmltest;
 
 import static org.junit.Assert.*;
 import json2xml.FormatXMLMoodle;
-import junit.framework.Assert;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -69,6 +68,94 @@ public class FormatXMLMoodleTest {
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
         
+        //Test avec true/false
+        xmlString = "<question type=\"truefalse\">"		
+		+"<answer fraction=\"100\">"
+		+"<text>true</text>"
+		+"<feedback><text>Correct!</text></feedback>"
+		+"</answer>"
+		+"<answer fraction=\"0\">"
+		+"<text>false</text>"
+		+"<feedback><text>Ooops!</text></feedback>"
+		+"</answer>"
+        +"</question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+        
+        //Test avec shortanswer
+        xmlString = "<question type=\"shortanswer\">"
+		+"<answer fraction=\"100\">"
+		+"<text>The correct answer</text>"
+		+"<feedback><text>Correct!</text></feedback>"
+		+"</answer>"
+		+"<question type=\"shortanswer\">"
+		+"<answer fraction=\"100\">"
+		+"<text>The correct answer</text>"
+		+"<feedback><text>Correct!</text></feedback>"
+		+"</answer>"
+		+"<answer fraction=\"100\">"
+		+"<text>An alternative answer</text>"
+		+"<feedback><text>Correct!</text></feedback>"
+		+"</answer>"
+        +"</question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+        
+        //Test avec numerical
+        xmlString = "<question type=\"numerical\">" +
+        		"<answer fraction=\"100\">" +
+	        		"<text>23</text>" +
+	        		"<feedback>" +
+	        			"<text>Feedback</text>" +
+	        		"</feedback>" +
+        		"</answer>" +
+                "</question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+        
+        //Test avec matching
+        xmlString = "<question type=\"matching\">" +
+        		"<subquestion>" +
+        			"<text>This is the 1st item in the 1st pair.</text>" +
+        			"<answer>" +
+        				"<text>This is the 2nd item in the 1st pair.</text>" +
+        			"</answer>" +
+        		"</subquestion>" +
+        		"<subquestion>" +
+        			"<text>This is the 1st item in the 2nd pair.</text>" +
+        			"<answer>" +
+        				"<text>This is the 2nd item in the 2nd pair.</text>" +
+        			"</answer>" +
+        		"</subquestion>" +
+        		"<shuffleanswers>true</shuffleanswers>" +
+                "</question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+
+        
+        //Test avec essay
+        xmlString = "<question type=\"essay\">" +
+        			"<answer fraction=\"0\">" +
+        				"<text></text>" +
+        			"</answer>" +
+        			"</question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
        
 	}
 }
