@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 //package
 
 import java.io.File;
@@ -10,10 +9,6 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import json2xml.Json2Xml;
 import xml2json.Xml2Json;
-=======
-import xml2json.*;
-import json2xml.*;
->>>>>>> 4bd7f50ce00fa81c5681623336aec698e20dcda8
 
 /**
  * TODO.
@@ -119,8 +114,8 @@ public class Main {
                 break;
             case 4:
                 String json = "{\"question\":" +
-                        {\"name\":" +
-                        {\"text\":\"Name of question\"}" +
+                        "\"name\":" +
+                        "\"text\":\"Name of question\"}" +
                         ",\"answer\":[{\"feedback\":{\"text\":\"Correct!\"}" +
                         ",\"text\":\"My Father?\",\"fraction\":100}," +
                         "{\"feedback\":{\"text\":\"Ooops!\"}," +
