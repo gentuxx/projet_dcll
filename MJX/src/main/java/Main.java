@@ -32,7 +32,7 @@ public class Main {
 
         while (choice != 0) {
             print("Que voulez vous faire?");
-            print("1 : Conversion XML -> JSON (A FAIRE)");
+            print("1 : Conversion XML -> JSON (A VERIFIER)");
             print("2 : Conversion JSON -> XML (A FAIRE)");
             print("3 : Test XML -> JSON (A FAIRE)");
             print("4 : Test JSON -> XML (A FAIRE)");
@@ -113,7 +113,15 @@ public class Main {
                 print("Résultat JSON: \n" + Xml2Json.conversion(xml) + "\n");
                 break;
             case 4:
-                String json = "{\"question\":{\"name\":{\"text\":\"Name of question\"},\"answer\":[{\"feedback\":{\"text\":\"Correct!\"},\"text\":\"My Father?\",\"fraction\":100},{\"feedback\":{\"text\":\"Ooops!\"},\"text\":\"GOD?\",\"fraction\":0}],\"questiontext\":{\"text\":\"Who am I?\",\"format\":\"html\"}}}";
+                String json = "{\"question\":" +
+                        {\"name\":" +
+                        {\"text\":\"Name of question\"}" +
+                        ",\"answer\":[{\"feedback\":{\"text\":\"Correct!\"}" +
+                        ",\"text\":\"My Father?\",\"fraction\":100}," +
+                        "{\"feedback\":{\"text\":\"Ooops!\"}," +
+                        "\"text\":\"GOD?\",\"fraction\":0}]," +
+                        "\"questiontext\":{\"text\"" +
+                        ":\"Who am I?\",\"format\":\"html\"}}}";
                 print("\n Test de conversion JSON -> XML:\n");
                 print("Test JSON: \n" + json + "\n");
                 print("Résultat XML: \n" + Json2Xml.conversion(json) + "\n");
