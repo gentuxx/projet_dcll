@@ -25,14 +25,23 @@ public class FormatXMLMoodleTest {
 	
 	@Test
 	public void testCheck() throws JSONException {
+	    //Test de base
+        String xmlString = "<question type=\"category\">"
+        + "<category>"
+        + "<text>$course$/XXXX</text>"
+        + "</category>"
+        + "</question>";
+        JSONObject json = XML.toJSONObject(xmlString);
+        String jsonString = FormatXMLMoodle.check(json);
+        
 	    //Test avec name
-	    String xmlString = "<question>" 
+	    xmlString = "<question>" 
 		+ "     <name>"
 		+ "         <text>Aire du cercle</text>"
 	    + "      </name>"
 	    + "</question>";
-	    JSONObject json = XML.toJSONObject(xmlString);
-	    String jsonString = FormatXMLMoodle.check(json);
+	    json = XML.toJSONObject(xmlString);
+	    jsonString = FormatXMLMoodle.check(json);
 	    
 	    //Test
 	    assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -68,6 +77,29 @@ public class FormatXMLMoodleTest {
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
         
+        //Test Multiple choice
+        xmlString = "<question type=\"multichoice\">"
+        + "<answer fraction=\"100\">"
+        + "<text>The correct answer</text>"
+        + "<feedback><text>Correct!</text></feedback>"
+        + "</answer>"
+        + "<answer fraction=\"0\">"
+        + "<text>A distractor</text>"
+        + "<feedback><text>Ooops!</text></feedback>"
+        + "</answer>"
+        + "<answer fraction=\"0\">"
+        + "<text>Another distractor</text>"
+        + "<feedback><text>Ooops!</text></feedback>"
+        + "</answer>"
+        + "<shuffleanswers>1</shuffleanswers>"
+        + "<single>true</single>"
+        + "<answernumbering>abc</answernumbering></question>";
+        json = XML.toJSONObject(xmlString);
+        jsonString = FormatXMLMoodle.check(json);
+        
+        //Test
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+        
         //Test avec true/false
         xmlString = "<question type=\"truefalse\">"		
 		+"<answer fraction=\"100\">"
@@ -87,14 +119,17 @@ public class FormatXMLMoodleTest {
         
         //Test avec shortanswer
         xmlString = "<question type=\"shortanswer\">"
-		+"<answer fraction=\"100\">"
-		+"<text>The correct answer</text>"
-		+"<feedback><text>Correct!</text></feedback>"
-		+"</answer>"
-		+"<question type=\"shortanswer\">"
-		+"<answer fraction=\"100\">"
-		+"<text>The correct answer</text>"
-		+"<feedback><text>Correct!</text></feedback>"
+		+"    <answer fraction=\"100\">"
+		+"        <text>The correct answer</text>"
+		+"        <feedback>" +
+		"             <text>Correct!</text>" +
+		"         </feedback>"
+		+"    </answer>"
+		+"    <question type=\"shortanswer\">"
+		+"        <answer fraction=\"100\">"
+		+"            <text>The correct answer</text>"
+		+"        <feedback>" +
+		"         <text>Correct!</text></feedback>"
 		+"</answer>"
 		+"<answer fraction=\"100\">"
 		+"<text>An alternative answer</text>"
