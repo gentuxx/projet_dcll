@@ -28,7 +28,7 @@ import org.xml.sax.SAXException;
  * Retourne vrai si il contiennent les même valeurs 
  * même si la structure n'a pas le même ordre
  * SURTOUT UTILISE POUR LES TESTS
- * @author florian
+ * @author florian et jeremy
  *
  */
 public class XMLComparator {
@@ -49,19 +49,7 @@ public class XMLComparator {
                 + "</question>";
         JSONObject json = XML.toJSONObject(xmlString);
         String jsonString = FormatXMLMoodle.check(json);
-        /*
-        jsonString = jsonString.replaceAll("\n","");
-        xmlString = xmlString.replaceAll("\n","");
-        jsonString = jsonString.replaceAll("\t","");
-        xmlString = xmlString.replaceAll("\t","");
-        while(jsonString.contains("  ")){
-            jsonString = jsonString.replaceAll("  ", " ");
-        }
-        while(xmlString.contains("  ")){
-            xmlString = xmlString.replaceAll("  ", " ");
-        }*/
-        //System.out.println(xmlString);
-        //System.out.println(jsonString);
+        
         System.out.println(compare(xmlString,jsonString));
     }
     
@@ -73,20 +61,10 @@ public class XMLComparator {
      */
     public static boolean compare(String xml1, String xml2){        
         try {
-            //On normalise les chaines
-            xml1 = xml1.replaceAll("\n","");
-            xml2 = xml2.replaceAll("\n","");
-            xml1 = xml1.replaceAll("\t","");
-            xml2 = xml2.replaceAll("\t","");
-            /*xml1 = xml1.replaceAll(" "," ");
-            xml2 = xml2.replaceAll(" "," ");*/
-            while(xml1.contains("  ")){
-                xml1 = xml1.replaceAll("  ", " ");
-            }
-            while(xml2.contains("  ")){
-                xml2 = xml2.replaceAll("  ", " ");
-            }
-            //System.out.println(xml1 + "\n" +xml2);
+            //Nettoyage des chaines
+            xml1 = cleanString(xml1);
+            xml2 = cleanString(xml2);
+            System.out.println(xml1 + "\n" +xml2);
             
             //Arbres qui vont contenir les differentes valeurs pour la comparaison
             SortedMap<String, String> map1 = new TreeMap<String, String>();
@@ -135,8 +113,9 @@ public class XMLComparator {
                 map.put(childNodes.item(i).getNodeName()+":Node", "");
                 //On parcour l'intérieur récursivement
                 map.putAll(parcour(childNodes.item(i).getChildNodes()));
-                //On ajoute le noeud à la map
-                //s'il y a plusieur niveau on dit qu'il ya erray en dessous, le noeud est éclaté par la commande précédente
+                //On ajoute la valeur du noeud à la map
+                //s'il y a plusieur niveau on dit qu'il ya un array en dessous, 
+                //le noeud est éclaté par la commande précédente
                 if(childNodes.item(i).getChildNodes().getLength() <= 1)
                 	map.put(childNodes.item(i).getNodeName()+":Value", (childNodes.item(i).getLastChild()).toString());
                 else
@@ -150,5 +129,15 @@ public class XMLComparator {
             }
         }
         return map;
+    }
+    
+    //Construction d'une chaine XML néttoyée
+    //On enleve les espaces multiples, les retour à la ligne, les tabulations
+    private static String cleanString(String string){
+        string = string.replaceAll("\n", " ").replaceAll("\t", " ");
+        while (string.contains("  ")) {
+            string = string.replaceAll("  ", " ").replaceAll(" <", "<").replaceAll("> ", ">");
+        }
+        return string;
     }
 }

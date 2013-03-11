@@ -1,5 +1,5 @@
-import json2xml.Json2Xml;
-import xml2json.Xml2Json;
+import xml2json.*;
+import json2xml.*;
 
 
 public class Main {
