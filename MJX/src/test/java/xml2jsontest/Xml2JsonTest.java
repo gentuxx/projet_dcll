@@ -8,17 +8,24 @@ import org.junit.Test;
 
 public class Xml2JsonTest {
 
+	String stringXML;
+	String stringJson;
+	
 	@Before
 	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
+		stringXML = "<test>ma blalise</test>";
+		stringJson = "{\"test\":\"ma blalise\"}";
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented"); // TODO
+	public void conversionTest() {
+		assertTrue(xml2json.Xml2Json.conversion(stringXML).equals(stringJson));		
+	}
+	
+	@After
+	public void tearDown() throws Exception {
+		stringXML = null;
+		stringJson = null;
 	}
 
 }
