@@ -20,14 +20,26 @@ public class FormatXMLMoodle {
         try {
             //On récupère le code à l'intérieur des balise question
             JSONObject contenu = json.getJSONObject("question");
+            String stringXML = "";
             //On commence le formatage
-            String stringXML = "<question>";
+            if(contenu.has("type")){
+                stringXML ="<question type=\"" + contenu.get("type") + "\">";
+                contenu.remove("type");
+            }
+            else{
+                stringXML = "<question>";
+            }
             //On ajoute la partie name
-            stringXML += namePart(contenu);
+            stringXML += baliseToAttribute(contenu, "name", "");
+            //On ajoute la partie catégorie
+            stringXML += baliseToAttribute(contenu, "category", "");
             //On ajoute la partie questiontext
-            stringXML += questiontextPart(contenu);
+            stringXML += baliseToAttribute(contenu, "questiontext", "format");
             //On ajoute la partie answer
-            stringXML += answerPart(contenu);
+            stringXML += baliseToAttribute(contenu, "answer", "fraction");
+            //On ajoute la partie shuffleanswers
+            stringXML += jsonToBalise(contenu, "shuffleanswers", "single", "answernumbering");
+            
             //On finalise le fichier
             stringXML += "\n</question>";
             return stringXML;
@@ -35,47 +47,6 @@ public class FormatXMLMoodle {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * Formate la partie answer.
-     * @param contenu
-     * @return Partie answer formatté
-     * @throws JSONException
-     */
-    private static String answerPart(final JSONObject contenu)
-    throws JSONException {
-        return "\n" + baliseToAttribute(contenu, "answer", "fraction");
-    }
-
-    /**
-     * Formate la partie name.
-     * @param contenu
-     * @return Partie name formatée
-     * @throws JSONException
-     */
-    public static String namePart(final JSONObject contenu)
-    throws JSONException {
-        if (!contenu.has("name")) {
-            return "";
-        }
-        //On écrit la partie name
-        String stringName = "\n<name>";
-        stringName += XML.toString(contenu.get("name"));
-        stringName += "\n</name>";
-        return stringName;
-    }
-
-    /**
-     * Formate la partie questiontext.
-     * @param contenu
-     * @return Partie questiontext formatté
-     * @throws JSONException
-     */
-    public static String questiontextPart(final JSONObject contenu)
-    throws JSONException {
-        //On écrit la partie questiontext
-        return "\n" + baliseToAttribute(contenu, "questiontext", "format");
     }
 
     /**
@@ -121,14 +92,14 @@ public class FormatXMLMoodle {
         return returnString;
     }
 
-/**
- *
- * @param contenu
- * @param balise
- * @param balisesAConvertir
- * @return
- * @throws JSONException
- */
+    /**
+     *
+     * @param contenu
+     * @param balise
+     * @param balisesAConvertir
+     * @return
+     * @throws JSONException
+     */
     private static String baliseToAttribute(final JSONArray contenu,
                                             final String balise,
                                             final String... balisesAConvertir)
@@ -149,5 +120,26 @@ public class FormatXMLMoodle {
             returnString += "\n</" + balise + ">";
         }
         return returnString;
+    }
+    
+    /**
+     * Permet de convertir une donnée depuis un code json en balise
+     * @param contenu Object d'où on prend les données
+     * @param données à convertir
+     * @return string xml des données converties
+     * @throws JSONException 
+     */
+    private static String jsonToBalise(final JSONObject contenu,
+                                       final String... donnees) 
+    throws JSONException{
+        String balises = "";
+        for(int i = 0; i < donnees.length; i++){
+            if(contenu.has(donnees[i])){
+                balises += "<" + donnees[i] + ">" 
+                        + contenu.get(donnees[i])
+                        + "</" + donnees[i] + ">";
+            }
+        }
+        return balises;
     }
 }

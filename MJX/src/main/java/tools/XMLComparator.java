@@ -117,7 +117,7 @@ public class XMLComparator {
                 //s'il y a plusieur niveau on dit qu'il ya un array en dessous, 
                 //le noeud est éclaté par la commande précédente
                 if(childNodes.item(i).getChildNodes().getLength() <= 1)
-                	map.put(childNodes.item(i).getNodeName()+":Value", (childNodes.item(i).getLastChild()).toString());
+                	map.put(childNodes.item(i).getNodeName()+":Value"+(childNodes.item(i).getLastChild()).toString(), (childNodes.item(i).getLastChild()).toString());
                 else
                 	map.put(childNodes.item(i).getNodeName()+":Value", "[array]");
             }
@@ -136,7 +136,13 @@ public class XMLComparator {
     private static String cleanString(String string){
         string = string.replaceAll("\n", " ").replaceAll("\t", " ");
         while (string.contains("  ")) {
-            string = string.replaceAll("  ", " ").replaceAll(" <", "<").replaceAll("> ", ">");
+            string = string.replaceAll("  ", " ");
+        }
+        while (string.contains(" <")) {
+            string = string.replaceAll(" <", "<");
+        }
+        while (string.contains("> ")) {
+            string = string.replaceAll("> ", ">");
         }
         return string;
     }
