@@ -97,18 +97,22 @@ public class FormatXMLMoodle {
             return "";
         }
         Object contenuTestType = contenu.get(balise);
+        
         if (contenuTestType instanceof JSONArray) {
             return baliseToAttribute(contenu.getJSONArray(balise)
                                     , balise
                                     , balisesAConvertir);
         }
+        
         JSONObject contenuTmp = contenu.getJSONObject(balise);
         String returnString = "<" + balise;
+        
         for (int i = 0; i < balisesAConvertir.length; i++) {
             if (contenuTmp.has(balisesAConvertir[i])) {
                 returnString += " " + balisesAConvertir[i] + "=\""
                 + contenuTmp.get(balisesAConvertir[i]) + "\"";
                 contenuTmp.remove(balisesAConvertir[i]);
+                contenu.remove(balisesAConvertir[i]);
             }
         }
         returnString += ">";

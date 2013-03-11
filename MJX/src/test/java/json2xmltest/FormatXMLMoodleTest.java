@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import tools.XMLComparator;
+
 public class FormatXMLMoodleTest {
     
     JSONObject json;
@@ -33,13 +35,8 @@ public class FormatXMLMoodleTest {
 	    JSONObject json = XML.toJSONObject(xmlString);
 	    String jsonString = FormatXMLMoodle.check(json);
 	    
-	    //On enleve les espace et les retour à la ligne pour le test
-	    //(on va pas aller jusqu'à la pour les conversions quand même... XD)
-	    xmlString = xmlString.replaceAll(" ", "").replaceAll("\n", "");
-	    jsonString = jsonString.replaceAll(" ", "").replaceAll("\n", "");
-
 	    //Test
-	    assertEquals(xmlString, jsonString);
+	    assertTrue(XMLComparator.compare(xmlString, jsonString));
 	    
 	    //Test avec questiontext simple
         xmlString = "<question>" 
@@ -50,13 +47,8 @@ public class FormatXMLMoodleTest {
         json = XML.toJSONObject(xmlString);
         jsonString = FormatXMLMoodle.check(json);
         
-        //On enleve les espace et les retour à la ligne pour le test
-        //(on va pas aller jusqu'à la pour les conversions quand même... XD)
-        xmlString = xmlString.replaceAll(" ", "").replaceAll("\n", "");
-        jsonString = jsonString.replaceAll(" ", "").replaceAll("\n", "");
-        
         //Test
-        assertEquals(xmlString, jsonString);
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
         
         //Test avec answer simple
         xmlString = "<question>"
@@ -74,16 +66,9 @@ public class FormatXMLMoodleTest {
         json = XML.toJSONObject(xmlString);
         jsonString = FormatXMLMoodle.check(json);
         
-        //On enleve les espace et les retour à la ligne pour le test
-        //(on va pas aller jusqu'à la pour les conversions quand même... XD)
-        xmlString = xmlString.replaceAll(" ", "").replaceAll("\n", "");
-        jsonString = jsonString.replaceAll(" ", "").replaceAll("\n", "");
-        
-        System.out.println(xmlString);
-        System.out.println(jsonString);
-        
         //Test
-        assertEquals(xmlString, jsonString);
+        assertTrue(XMLComparator.compare(xmlString, jsonString));
+        
+       
 	}
-
 }
