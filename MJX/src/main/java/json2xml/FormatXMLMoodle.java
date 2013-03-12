@@ -6,8 +6,8 @@ import org.json.JSONObject;
 import org.json.XML;
 
 /**
- * Classe permettant de formatter le contenu d'un quiz au 
- * format compatible Moodle 
+ * Classe permettant de générer un code XML à partir d'un objet JSON
+ * L'objet JSON doit contenir des balises questions
  */
 public class FormatXMLMoodle {
     /**
@@ -16,7 +16,7 @@ public class FormatXMLMoodle {
      * @param json JSONObject du json a convertir
      * @return String code XML du contenu de quiz <question> ... </question>
      */
-    public String check(final JSONObject json) {
+    public final String check(final JSONObject json) {
         try {
             //On récupère le code à l'intérieur des balise question
             if (!json.has("question")) {
@@ -29,11 +29,10 @@ public class FormatXMLMoodle {
             if (object instanceof JSONObject) {
                 //On construit le code de la question
                 stringXML += makeQuestion((JSONObject) object);
-            }
-            else if (object instanceof JSONArray) {
+            } else if (object instanceof JSONArray) {
                 //On construit le code des questions
                 JSONArray array =  (JSONArray) object;
-                for(int i = 0; i < array.length(); i++) {
+                for (int i = 0; i < array.length(); i++) {
                     stringXML += makeQuestion(array.getJSONObject(i));
                 }
             }
@@ -47,21 +46,20 @@ public class FormatXMLMoodle {
     }
 
     /**
-     * Construit la question au format XML
+     * Construit la question au format XML,
      * @param contenu JSONObject du contenu d'une balise question
      * @return Question au format XML
-     * @throws JSONException Si il y a une erreur lors de l'accès à l'objet contenu
+     * @throws JSONException Si il y a une erreur lors de l'accès à contenu
      */
-    private String makeQuestion(JSONObject contenu) 
+    private String makeQuestion(final JSONObject contenu)
     throws JSONException {
         String stringXML = "";
         //On commence le formatage
         //Si la question a un type, on l'ajoute
-        if(contenu.has("type")){
-            stringXML ="<question type=\"" + contenu.get("type") + "\">";
+        if (contenu.has("type")) {
+            stringXML = "<question type=\"" + contenu.get("type") + "\">";
             contenu.remove("type");
-        }
-        else{
+        } else {
             stringXML += "<question>";
         }
         //On ajoute la partie name
@@ -69,7 +67,7 @@ public class FormatXMLMoodle {
         //On ajoute la partie catégorie
         stringXML += baliseToAttribute(contenu, "category", "");
         //On ajoute la partie subquestion
-        stringXML += baliseToAttribute(contenu,"subquestion","");
+        stringXML += baliseToAttribute(contenu, "subquestion", "");
         //On ajoute la partie questiontext
         stringXML += baliseToAttribute(contenu, "questiontext", "format");
         //On ajoute la partie answer
@@ -81,7 +79,6 @@ public class FormatXMLMoodle {
         contenu.remove("questiontext");
         contenu.remove("answer");
         stringXML += XML.toString(contenu);
-        
         //On finalise le fichier
         stringXML += "\n</question>";
         return stringXML;
@@ -98,7 +95,7 @@ public class FormatXMLMoodle {
      * @param balisesAConvertir Tableau des balises à convertir
      *                          Si la balise n'existe pas, elle est ignorée
      * @return Resultat du traitement au format XML
-     * @throws JSONException Si il y a une erreur lors de l'accès à l'objet contenu
+     * @throws JSONException Si il y a une erreur lors de l'accès à contenu
      */
     private static String baliseToAttribute(final JSONObject contenu,
                                             final String balise,
@@ -108,7 +105,6 @@ public class FormatXMLMoodle {
         if (!contenu.has(balise)) {
             return "";
         }
-        
         //On récupère le contenu de la balise
         Object contenuTestType = contenu.get(balise);
         //On teste son type, on appelle la seconde fonction si c'est un array
@@ -139,7 +135,7 @@ public class FormatXMLMoodle {
     }
 
     /**
-     * Même principe que la baliseToAttribute(JSONObject [...]) mais sur un 
+     * Même principe que la baliseToAttribute(JSONObject [...]) mais sur un
      * JSONArray, on répète le traitement sur toutes les valeurs du JSONArray
      */
     private static String baliseToAttribute(final JSONArray contenu,
