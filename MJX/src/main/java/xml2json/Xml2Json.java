@@ -24,7 +24,7 @@ public class Xml2Json {
      * @param stringXML
      * @return
      */
-    public static String conversion(final String stringXML) {
+    public String conversion(final String stringXML) {
         try {
             //Utilisation de la methode statique de XML
             //pour conversion vers JSON
