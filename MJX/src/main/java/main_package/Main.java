@@ -85,6 +85,9 @@ public class Main {
             if (dialogue.showOpenDialog(null)
                 == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
+            } else {
+            	print("Export annulé.\n");
+            	return true;
             }
             //objet pour la conversion
             Xml2Json xml_json_conv = new Xml2Json();
@@ -117,6 +120,7 @@ public class Main {
             }
             print("Conversion terminée, résultat dans "
                    + jsonResult.getAbsolutePath()
+<<<<<<< HEAD
                    + "\n\n");
              return true;
         case XML:
@@ -126,5 +130,16 @@ public class Main {
             break;
         }
          return false;
+=======
+                   + "\n");
+    		return true;
+    	case XML:
+    		return true;
+    	default :
+    		print("Format d'export demandé invalide.\n");
+    		break;
+    	}
+		return false;
+>>>>>>> 7788d62f5ae712b7cd5f1683a570f5dc81725c3d
     }
 }
