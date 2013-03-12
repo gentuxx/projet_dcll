@@ -118,24 +118,20 @@ public class FormatXMLMoodleTest {
         assertTrue(XMLComparator.compare(xmlString, jsonString));
         
         //Test avec shortanswer
-        xmlString = "<question type=\"shortanswer\">"
-		+"    <answer fraction=\"100\">"
-		+"        <text>The correct answer</text>"
-		+"        <feedback>" +
-		"             <text>Correct!</text>" +
-		"         </feedback>"
-		+"    </answer>"
-		+"    <question type=\"shortanswer\">"
-		+"        <answer fraction=\"100\">"
-		+"            <text>The correct answer</text>"
-		+"        <feedback>" +
-		"         <text>Correct!</text></feedback>"
-		+"</answer>"
-		+"<answer fraction=\"100\">"
-		+"<text>An alternative answer</text>"
-		+"<feedback><text>Correct!</text></feedback>"
-		+"</answer>"
-        +"</question>";
+        xmlString = "" 
+		+ "    <question type=\"shortanswer\">"
+		+ "        <answer fraction=\"100\">"
+		+ "            <text>The correct answer</text>"
+		+ "        <feedback>"
+		+ "         <text>Correct!</text></feedback>"
+		+ "    </answer>"
+		+ "    <answer fraction=\"100\">"
+		+ "        <text>An alternative answer</text>"
+		+ "        <feedback>"
+		+ "             <text>Correct!</text>"
+		+ "         </feedback>"
+		+ "    </answer>"
+        + "</question>";
         json = XML.toJSONObject(xmlString);
         jsonString = FormatXMLMoodle.check(json);
         
@@ -158,21 +154,21 @@ public class FormatXMLMoodleTest {
         assertTrue(XMLComparator.compare(xmlString, jsonString));
         
         //Test avec matching
-        xmlString = "<question type=\"matching\">" +
-        		"<subquestion>" +
-        			"<text>This is the 1st item in the 1st pair.</text>" +
-        			"<answer>" +
-        				"<text>This is the 2nd item in the 1st pair.</text>" +
-        			"</answer>" +
-        		"</subquestion>" +
-        		"<subquestion>" +
-        			"<text>This is the 1st item in the 2nd pair.</text>" +
-        			"<answer>" +
-        				"<text>This is the 2nd item in the 2nd pair.</text>" +
-        			"</answer>" +
-        		"</subquestion>" +
-        		"<shuffleanswers>true</shuffleanswers>" +
-                "</question>";
+        xmlString = "<question type=\"matching\">"
+        		+ "   <subquestion>"
+        		+ "       <text>This is the 1st item in the 1st pair.</text>"
+        		+ "       <answer>"
+        		+ "           <text>This is the 2nd item in the 1st pair.</text>"
+        		+ "       </answer>"
+        		+ "   </subquestion>"
+        		+ "   <subquestion>"
+        		+ "       <text>This is the 1st item in the 2nd pair.</text>"
+        		+ "       <answer>"
+        		+ "           <text>This is the 2nd item in the 2nd pair.</text>"
+        		+ "       </answer>"
+        		+ "   </subquestion>"
+        		+ "   <shuffleanswers>true</shuffleanswers>"
+                + "</question>";
         json = XML.toJSONObject(xmlString);
         jsonString = FormatXMLMoodle.check(json);
         

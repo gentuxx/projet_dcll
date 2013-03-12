@@ -69,7 +69,7 @@ public class XMLComparator {
             //Arbres qui vont contenir les differentes valeurs pour la comparaison
             SortedMap<String, String> map1 = new TreeMap<String, String>();
             SortedMap<String, String> map2 = new TreeMap<String, String>();
-            
+
             //Initilisation des variables DOM
             InputSource is1 = new InputSource();
             is1.setCharacterStream(new StringReader(xml1));
@@ -85,6 +85,7 @@ public class XMLComparator {
             //On vérifie que les deux map sont identiques
             System.out.println(map1);
             System.out.println(map2);
+
             return map1.equals(map2);
         
         } catch(ParserConfigurationException pce){

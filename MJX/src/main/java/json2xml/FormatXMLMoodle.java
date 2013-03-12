@@ -19,34 +19,59 @@ public class FormatXMLMoodle {
     public static String check(final JSONObject json) {
         try {
             //On récupère le code à l'intérieur des balise question
-            JSONObject contenu = json.getJSONObject("question");
+            if (!json.has("question")) {
+                return "";
+            }
             String stringXML = "";
-            //On commence le formatage
-            if(contenu.has("type")){
-                stringXML ="<question type=\"" + contenu.get("type") + "\">";
-                contenu.remove("type");
+            Object object = json.get("question");
+            if (object instanceof JSONObject) {
+                stringXML += makeQuestion((JSONObject) object);
             }
-            else{
-                stringXML = "<question>";
+            else if (object instanceof JSONArray) {
+                JSONArray array =  (JSONArray) object;
+                for(int i = 0; i < array.length(); i++) {
+                    stringXML += makeQuestion(array.getJSONObject(i));
+                }
             }
-            //On ajoute la partie name
-            stringXML += baliseToAttribute(contenu, "name", "");
-            //On ajoute la partie catégorie
-            stringXML += baliseToAttribute(contenu, "category", "");
-            //On ajoute la partie questiontext
-            stringXML += baliseToAttribute(contenu, "questiontext", "format");
-            //On ajoute la partie answer
-            stringXML += baliseToAttribute(contenu, "answer", "fraction");
-            //On ajoute la partie shuffleanswers
-            stringXML += jsonToBalise(contenu, "shuffleanswers", "single", "answernumbering");
-            
-            //On finalise le fichier
-            stringXML += "\n</question>";
             return stringXML;
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private static Object makeQuestion(JSONObject contenu) 
+    throws JSONException {
+        String stringXML = "";
+        //On commence le formatage
+        if(contenu.has("type")){
+            stringXML ="<question type=\"" + contenu.get("type") + "\">";
+            contenu.remove("type");
+        }
+        else{
+            stringXML += "<question>";
+        }
+        //On ajoute la partie name
+        stringXML += baliseToAttribute(contenu, "name", "");
+        //On ajoute la partie catégorie
+        stringXML += baliseToAttribute(contenu, "category", "");
+        //On ajoute la partie subquestion
+        stringXML += baliseToAttribute(contenu,"subquestion","");
+        //On ajoute la partie questiontext
+        stringXML += baliseToAttribute(contenu, "questiontext", "format");
+        //On ajoute la partie answer
+        stringXML += baliseToAttribute(contenu, "answer", "fraction");
+        //On ajoute la partie shuffleanswers
+        contenu.remove("name");
+        contenu.remove("category");
+        contenu.remove("subquestion");
+        contenu.remove("questiontext");
+        contenu.remove("answer");
+        stringXML += XML.toString(contenu);
+        
+        //On finalise le fichier
+        stringXML += "\n</question>";
+        return stringXML;
     }
 
     /**
