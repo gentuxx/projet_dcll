@@ -1,10 +1,13 @@
 package main_package;
 
 //Made in java
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.Scanner;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -70,18 +73,26 @@ public class Main {
      * @param choice format de sortie voulue
      * @return true si tout c'est bien passé, false sinon
      */
-    private static boolean export(exportFormat choice) {
-        switch (choice) {
-        case JSON:
-            //selectionner fichier
-            File fichier = null;
-            JFileChooser dialogue = new JFileChooser();
+    private static boolean export(exportFormat choise) {
+    	//Variable utilisées dans tout les cas
+    	//Pour la dialogue
+        JFileChooser dialogue;
+        FileNameExtensionFilter filter;
+        //Pour les opération de fichier
+        File fichier;
+        String strToConvert;
+        String strConverted;
+        PrintWriter pr;
+        
+    	switch (choise) {
+    	case JSON:
+    		dialogue = new JFileChooser();
             //On autorise seulement les fichiers xml
-            FileNameExtensionFilter filter =
-                   new FileNameExtensionFilter("Fichiers xml", "xml");
+    		filter = new FileNameExtensionFilter("Fichiers xml", "xml");
             dialogue.setFileFilter(filter);
             dialogue.setAcceptAllFileFilterUsed(false);
             dialogue.setDialogTitle("Importation du fichier XML Moodle");
+            //selectionner fichier
             if (dialogue.showOpenDialog(null)
                 == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
@@ -92,9 +103,9 @@ public class Main {
             //objet pour la conversion
             Xml2Json xml_json_conv = new Xml2Json();
             //Récuperation du contenu du fichier .xml
-            String strToConvert = xml_json_conv.selectionnerFichier(fichier);
+            strToConvert = recupDataFichier(fichier);
             //Conversion du XML en JSON
-            String strConverted = xml_json_conv.conversion(strToConvert);
+            strConverted = xml_json_conv.conversion(strToConvert);
             //Création du fichier .json
             File jsonResult = new File(
                     fichier.getAbsolutePath().substring(
@@ -107,7 +118,6 @@ public class Main {
                 return false;
             }
             //Ecriture de la chaine json dans le fichier .json
-            PrintWriter pr = null;
             try {
                 pr = new PrintWriter(jsonResult);
                 for (int i = 0; i < strConverted.length(); i++) {
@@ -120,26 +130,89 @@ public class Main {
             }
             print("Conversion terminée, résultat dans "
                    + jsonResult.getAbsolutePath()
-<<<<<<< HEAD
-                   + "\n\n");
-             return true;
-        case XML:
-            return true;
-        default :
-            print("Format d'export demandé invalide.");
-            break;
-        }
-         return false;
-=======
                    + "\n");
     		return true;
     	case XML:
+    		dialogue = new JFileChooser();
+            //On autorise seulement les fichiers json
+            filter = new FileNameExtensionFilter("Fichiers json", "json");
+            dialogue.setFileFilter(filter);
+            dialogue.setAcceptAllFileFilterUsed(false);
+            dialogue.setDialogTitle("Importation du fichier JSON");
+            if (dialogue.showOpenDialog(null)
+                == JFileChooser.APPROVE_OPTION) {
+                fichier = dialogue.getSelectedFile();
+            } else {
+            	print("Export annulé.\n");
+            	return true;
+            }
+    		//objet pour la conversion
+    		Json2Xml json_xml_conv = new Json2Xml();
+            //Récuperation du contenu du fichier .json
+            strToConvert = recupDataFichier(fichier);
+            //Conversion du JSON en XML
+            try {
+				strConverted = json_xml_conv.conversion(strToConvert);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+        		return false;
+			}
+            //Création du fichier .xml
+            File xmlResult = new File(
+                    fichier.getAbsolutePath().substring(
+                           0, fichier.getAbsolutePath().length() - 5)
+                           + ".xml");
+            try {
+            	xmlResult.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+        		return false;
+            }
+            //Ecriture de la chaine xml dans le fichier .xml
+            try {
+            	pr = new PrintWriter(xmlResult);
+	            for (int i = 0; i < strConverted.length(); i++) {
+	            	pr.print(strConverted.charAt(i));
+	            }
+	            pr.close();
+            } catch (FileNotFoundException e) {
+            	e.printStackTrace();
+        		return false;
+            }
+            print("Conversion terminée, résultat dans "
+                   + xmlResult.getAbsolutePath()
+                   + "\n");
     		return true;
     	default :
     		print("Format d'export demandé invalide.\n");
     		break;
     	}
 		return false;
->>>>>>> 7788d62f5ae712b7cd5f1683a570f5dc81725c3d
+    }
+    
+    /**
+     * Récupère le contenu d'un fichier xml et le retourne sous forme de chaîne.
+     * 
+     * @param f le fichier dont on veut récupérer le contenu
+     * @return le contenu du fichier
+     */
+    //Ouvre un fichier et met son contenu dans une string que
+    //l'on utilisera pour la conversion
+    private static String recupDataFichier(final File f) {
+        StringWriter strw = new StringWriter();
+        try {
+              BufferedInputStream buff =
+              new BufferedInputStream(new FileInputStream(f));
+               int b;
+               while ((b = buff.read()) != -1) {
+                   strw.write(b);
+               }
+               strw.flush();
+               strw.close();
+               buff.close();
+            } catch (IOException ie) {
+                 ie.printStackTrace();
+            }
+        return strw.toString();
     }
 }
