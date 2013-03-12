@@ -456,8 +456,11 @@ public class Xml2JsonTest {
 
 	@Test
 	public void conversionTest() {
-		System.out.println(new Xml2Json().conversion(stringXML));
-		//assertTrue(new Xml2Json().conversion(stringXML).equals(stringJson));		
+		try {
+			stringJson = new Xml2Json().conversion(stringXML);
+		} catch(Exception e) {
+            assertTrue(false);
+		}
 	}
 	
 	@After
