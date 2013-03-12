@@ -6,6 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import xml2json.Xml2Json;
+
 public class Xml2JsonTest {
 
 	String stringXML;
@@ -19,7 +21,7 @@ public class Xml2JsonTest {
 
 	@Test
 	public void conversionTest() {
-		assertTrue(xml2json.Xml2Json.conversion(stringXML).equals(stringJson));		
+		assertTrue(new Xml2Json().conversion(stringXML).equals(stringJson));		
 	}
 	
 	@After

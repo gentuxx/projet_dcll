@@ -26,33 +26,12 @@ import org.xml.sax.SAXException;
 /**
  * Fournit une méthode statique equals permettant de comparer deux fichier XML
  * Retourne vrai si il contiennent les même valeurs 
- * même si la structure n'a pas le même ordre
+ * même si la structure n'a pas strictement le même ordre
  * SURTOUT UTILISE POUR LES TESTS
  * @author florian et jeremy
  *
  */
 public class XMLComparator {
-    
-    public static void main(String [] arg) throws JSONException{
-      //Test avec name
-        String xmlString = "<question>"
-                + "<answer fraction=\"100\">"
-                + "<text>3.14*{R}*{R}</text>"
-                + "<tolerance>0.01</tolerance>"
-                + "<tolerancetype>1</tolerancetype>"
-                + "<correctanswerformat>1</correctanswerformat>"
-                + "<correctanswerlength>1</correctanswerlength>"
-                + "<feedback>"
-                + "<text/>"
-                + "</feedback>"
-                + "</answer>"
-                + "</question>";
-        JSONObject json = XML.toJSONObject(xmlString);
-        String jsonString = FormatXMLMoodle.check(json);
-        
-        System.out.println(compare(xmlString,jsonString));
-    }
-    
     /**
      * Fonction retournant vrai si les chaines XML contiennent les mêmes valeurs
      * @param xml1
@@ -103,7 +82,11 @@ public class XMLComparator {
         }
     }
 
-    //Construit une map à partir d'une liste de noeuds
+    /**
+     * Construit une map à partir d'une liste de noeuds
+     * @param childNodes noueud desquels on va créer la map
+     * @return La map générée
+     */
     private static SortedMap<String, String> parcour(NodeList childNodes) {
         SortedMap<String, String> map = new TreeMap<String, String>();
         //Pour chaque noeuds
@@ -132,8 +115,12 @@ public class XMLComparator {
         return map;
     }
     
-    //Construction d'une chaine XML néttoyée
-    //On enleve les espaces multiples, les retour à la ligne, les tabulations
+    /**
+     * Construction d'une chaine XML néttoyée
+     * On enleve les espaces multiples, les retour à la ligne, les tabulations
+     * @param string Chaîne à nettoyer
+     * @return Chaîne nettoyée
+     */
     private static String cleanString(String string){
         string = string.replaceAll("\n", " ").replaceAll("\t", " ");
         while (string.contains("  ")) {

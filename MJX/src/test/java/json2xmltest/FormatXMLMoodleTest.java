@@ -12,27 +12,41 @@ import org.junit.Test;
 
 import tools.XMLComparator;
 
+/**
+ * Classe de test de la classe formatXMLMoodleTest
+ */
 public class FormatXMLMoodleTest {
     
     JSONObject json;
+    String xmlString;
+    String jsonString;
+    FormatXMLMoodle formatter;
 	@Before
 	public void setUp() throws Exception {
+	    json = new JSONObject();
+	    xmlString = "";
+	    jsonString = "";
+	    formatter = new FormatXMLMoodle();
 	}
 
 	@After
 	public void tearDown() throws Exception {
+	    json = null;
+        xmlString = null;
+        jsonString = null;
+        formatter = null;
 	}
 	
 	@Test
 	public void testCheck() throws JSONException {
 	    //Test de base
-        String xmlString = "<question type=\"category\">"
+        xmlString = "<question type=\"category\">"
         + "<category>"
         + "<text>$course$/XXXX</text>"
         + "</category>"
         + "</question>";
-        JSONObject json = XML.toJSONObject(xmlString);
-        String jsonString = FormatXMLMoodle.check(json);
+        json = XML.toJSONObject(xmlString);
+         jsonString = formatter.check(json);
         
 	    //Test avec name
 	    xmlString = "<question>" 
@@ -41,7 +55,7 @@ public class FormatXMLMoodleTest {
 	    + "      </name>"
 	    + "</question>";
 	    json = XML.toJSONObject(xmlString);
-	    jsonString = FormatXMLMoodle.check(json);
+	    jsonString = formatter.check(json);
 	    
 	    //Test
 	    assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -53,7 +67,7 @@ public class FormatXMLMoodleTest {
         + "     </questiontext>"
         + "</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -72,7 +86,7 @@ public class FormatXMLMoodleTest {
         + "</answer>"
         + "</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -95,7 +109,7 @@ public class FormatXMLMoodleTest {
         + "<single>true</single>"
         + "<answernumbering>abc</answernumbering></question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -112,7 +126,7 @@ public class FormatXMLMoodleTest {
 		+"</answer>"
         +"</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -133,7 +147,7 @@ public class FormatXMLMoodleTest {
 		+ "    </answer>"
         + "</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -148,7 +162,7 @@ public class FormatXMLMoodleTest {
         		"</answer>" +
                 "</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -170,7 +184,7 @@ public class FormatXMLMoodleTest {
         		+ "   <shuffleanswers>true</shuffleanswers>"
                 + "</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));
@@ -183,7 +197,7 @@ public class FormatXMLMoodleTest {
         			"</answer>" +
         			"</question>";
         json = XML.toJSONObject(xmlString);
-        jsonString = FormatXMLMoodle.check(json);
+        jsonString = formatter.check(json);
         
         //Test
         assertTrue(XMLComparator.compare(xmlString, jsonString));

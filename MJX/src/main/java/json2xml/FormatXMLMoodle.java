@@ -4,46 +4,59 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
+
 /**
- * TODO.
- * @author nicolas
- *
+ * Classe permettant de formatter le contenu d'un quiz au 
+ * format compatible Moodle 
  */
 public class FormatXMLMoodle {
     /**
      * Permet de generer un fichier XML compatible moodle
-     * depuis un fichier JSON.
+     * depuis un objet JSON.
      * @param json JSONObject du json a convertir
-     * @return String contenant le code XML
+     * @return String code XML du contenu de quiz <question> ... </question>
      */
-    public static String check(final JSONObject json) {
+    public String check(final JSONObject json) {
         try {
             //On récupère le code à l'intérieur des balise question
             if (!json.has("question")) {
                 return "";
             }
             String stringXML = "";
+            //On teste si il y a un ou plusieurs questions
+            //Si c'est un JSONObject ou un JSONArray
             Object object = json.get("question");
             if (object instanceof JSONObject) {
+                //On construit le code de la question
                 stringXML += makeQuestion((JSONObject) object);
             }
             else if (object instanceof JSONArray) {
+                //On construit le code des questions
                 JSONArray array =  (JSONArray) object;
                 for(int i = 0; i < array.length(); i++) {
                     stringXML += makeQuestion(array.getJSONObject(i));
                 }
             }
+            //On retourne le code XML
             return stringXML;
         } catch (JSONException e) {
+            System.out.println("Erreur lors de la conversion.");
             e.printStackTrace();
+            return "ERREUR";
         }
-        return null;
     }
 
-    private static Object makeQuestion(JSONObject contenu) 
+    /**
+     * Construit la question au format XML
+     * @param contenu JSONObject du contenu d'une balise question
+     * @return Question au format XML
+     * @throws JSONException Si il y a une erreur lors de l'accès à l'objet contenu
+     */
+    private String makeQuestion(JSONObject contenu) 
     throws JSONException {
         String stringXML = "";
         //On commence le formatage
+        //Si la question a un type, on l'ajoute
         if(contenu.has("type")){
             stringXML ="<question type=\"" + contenu.get("type") + "\">";
             contenu.remove("type");
@@ -79,30 +92,37 @@ public class FormatXMLMoodle {
      * retourne le code XML correspondant
      * <balise><type> Banzai </type></balise> devient
      * <balise type="Banzai></balise>".
-     * @param contenu JSONObject contenant le contenu
-     * @param balise nom de la balise ou on doit faire la modification
-     * @param balisesAConvertir tableau des balises à convertir
-     * @return Code XML Formaté
-     * @throws JSONException
+     * @param contenu JSONObject contenant la balise à traiter
+     * @param balise Nom de la balise où on doit faire la modification
+     *               Si la balise n'existe pas, on renvoie la chaîne vide
+     * @param balisesAConvertir Tableau des balises à convertir
+     *                          Si la balise n'existe pas, elle est ignorée
+     * @return Resultat du traitement au format XML
+     * @throws JSONException Si il y a une erreur lors de l'accès à l'objet contenu
      */
     private static String baliseToAttribute(final JSONObject contenu,
                                             final String balise,
                                             final String... balisesAConvertir)
     throws JSONException {
+        //On vérifie la présence de la balise
         if (!contenu.has(balise)) {
             return "";
         }
-        Object contenuTestType = contenu.get(balise);
         
+        //On récupère le contenu de la balise
+        Object contenuTestType = contenu.get(balise);
+        //On teste son type, on appelle la seconde fonction si c'est un array
         if (contenuTestType instanceof JSONArray) {
             return baliseToAttribute(contenu.getJSONArray(balise)
                                     , balise
                                     , balisesAConvertir);
         }
-        
+        //On récupère le contenu au format JSONObject
         JSONObject contenuTmp = contenu.getJSONObject(balise);
+        //On commance la construction de la balise
         String returnString = "<" + balise;
-        
+        //On ajoute toutes les balise à convertir en attribut
+        //en tant que tel
         for (int i = 0; i < balisesAConvertir.length; i++) {
             if (contenuTmp.has(balisesAConvertir[i])) {
                 returnString += " " + balisesAConvertir[i] + "=\""
@@ -111,6 +131,7 @@ public class FormatXMLMoodle {
                 contenu.remove(balisesAConvertir[i]);
             }
         }
+        //On termine la balise
         returnString += ">";
         returnString += "\n" + XML.toString(contenuTmp);
         returnString += "\n</" + balise + ">";
@@ -118,12 +139,8 @@ public class FormatXMLMoodle {
     }
 
     /**
-     *
-     * @param contenu
-     * @param balise
-     * @param balisesAConvertir
-     * @return
-     * @throws JSONException
+     * Même principe que la baliseToAttribute(JSONObject [...]) mais sur un 
+     * JSONArray, on répète le traitement sur toutes les valeurs du JSONArray
      */
     private static String baliseToAttribute(final JSONArray contenu,
                                             final String balise,
@@ -145,26 +162,5 @@ public class FormatXMLMoodle {
             returnString += "\n</" + balise + ">";
         }
         return returnString;
-    }
-    
-    /**
-     * Permet de convertir une donnée depuis un code json en balise
-     * @param contenu Object d'où on prend les données
-     * @param données à convertir
-     * @return string xml des données converties
-     * @throws JSONException 
-     */
-    private static String jsonToBalise(final JSONObject contenu,
-                                       final String... donnees) 
-    throws JSONException{
-        String balises = "";
-        for(int i = 0; i < donnees.length; i++){
-            if(contenu.has(donnees[i])){
-                balises += "<" + donnees[i] + ">" 
-                        + contenu.get(donnees[i])
-                        + "</" + donnees[i] + ">";
-            }
-        }
-        return balises;
     }
 }
