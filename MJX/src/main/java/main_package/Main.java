@@ -16,7 +16,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import json2xml.Json2Xml;
 import xml2json.Xml2Json;
 
+/** Liste des formats d'export supportés. */
 enum exportFormat { JSON, XML }
+
 /**
  * Classe servant d'interface pour la réalisation
  * des différentes convertions offertes par le logiciel.
@@ -40,8 +42,8 @@ public class Main {
         int choice = -1;
         while (choice != 0) {
             print("Que voulez vous faire?");
-            print("1 : Conversion XML -> JSON (A VERIFIER)");
-            print("2 : Conversion JSON -> XML (A FAIRE)");
+            print("1 : Conversion XML -> JSON");
+            print("2 : Conversion JSON -> XML");
             print("0 : Quitter");
             System.out.print("Votre choix : ");
             choice = new Scanner(System.in).nextInt();
@@ -55,7 +57,9 @@ public class Main {
                 }
                 break;
             case 2:
-                print("\nA FAIRE\n");
+                if (!export(exportFormat.XML)) {
+                    print("Un problème est survenu lors de la conversion JSON -> XML");
+                }
                 break;
             default:
                 print("Mauvais Choix.");
@@ -196,8 +200,6 @@ public class Main {
      * @param f le fichier dont on veut récupérer le contenu
      * @return le contenu du fichier
      */
-    //Ouvre un fichier et met son contenu dans une string que
-    //l'on utilisera pour la conversion
     private static String recupDataFichier(final File f) {
         StringWriter strw = new StringWriter();
         try {
