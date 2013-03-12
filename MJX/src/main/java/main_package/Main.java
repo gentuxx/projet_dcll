@@ -89,6 +89,9 @@ public class Main {
             if (dialogue.showOpenDialog(null)
                 == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
+            } else {
+            	print("Export annulé.\n");
+            	return true;
             }
     		//objet pour la conversion
     		Xml2Json xml_json_conv = new Xml2Json();
@@ -121,12 +124,12 @@ public class Main {
             }
             print("Conversion terminée, résultat dans "
                    + jsonResult.getAbsolutePath()
-                   + "\n\n");
+                   + "\n");
     		return true;
     	case XML:
     		return true;
     	default :
-    		print("Format d'export demandé invalide.");
+    		print("Format d'export demandé invalide.\n");
     		break;
     	}
 		return false;
