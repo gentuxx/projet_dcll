@@ -45,7 +45,7 @@ public class Xml2Json {
      */
     //Ouvre un fichier et met son contenu dans une string que
     //l'on utilisera pour la conversion
-    public static String selectionnerFichier(final File f) {
+    public String selectionnerFichier(final File f) {
         StringWriter strw = new StringWriter();
         try {
               BufferedInputStream buff =
