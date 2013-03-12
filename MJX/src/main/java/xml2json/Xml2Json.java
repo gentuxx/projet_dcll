@@ -14,15 +14,15 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.XML;
 /**
- * TODO.
+ * Classe servant à convertir un fichier xml en json.
  * @author nicolas
  *
  */
 public class Xml2Json {
     /**
-     * TODO.
-     * @param stringXML
-     * @return
+     * Convertit une chaine xml en un objet json.
+     * @param stringXML la chaîne à convertir
+     * @return Une chaîne json ou Erreur
      */
     public String conversion(final String stringXML) {
         try {
@@ -39,9 +39,9 @@ public class Xml2Json {
         return "Erreur";
     }
     /**
-     * TODO.
-     * @param f
-     * @return
+     * Récupère le contenu d'un fichier xml et le retourne sous forme de chaîne.
+     * @param f le fichier dont on veut récupérer le contenu
+     * @return le contenu du fichier
      */
     //Ouvre un fichier et met son contenu dans une string que
     //l'on utilisera pour la conversion
