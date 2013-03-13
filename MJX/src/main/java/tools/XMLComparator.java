@@ -26,14 +26,15 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
- * Fournit une méthode statique equals permettant de comparer deux fichier XML
- * Retourne vrai si il contiennent les même valeurs 
- * même si la structure n'a pas strictement le même ordre
+ * Fournit une méthode statique equals permettant de comparer deux fichier XML.
+ * Retourne vrai si il contiennent les même valeurs
+ * même si la structure n'a pas strictement le même ordre.
  * SURTOUT UTILISE POUR LES TESTS
  */
 public class XMLComparator {
     /**
-     * Fonction retournant vrai si les chaines XML contiennent les mêmes valeurs
+     * Fonction retournant vrai
+     * si les chaines XML contiennent les mêmes valeurs.
      * @param xml1 Chaine du premier XML
      * @param xml2 Chaine du second XML
      * @return Si les chaines sont pareilles ou non
@@ -83,7 +84,8 @@ public class XMLComparator {
      * @param childNodes noueud desquels on va créer la map
      * @return La map générée
      */
-    private static SortedMap<String, String> parcour(final NodeList childNodes) {
+    private static SortedMap<String, String> parcour(
+                                             final NodeList childNodes) {
         SortedMap<String, String> map = new TreeMap<String, String>();
         //Pour chaque noeuds
         for (int i = 0; i < childNodes.getLength(); i++) {
@@ -118,10 +120,9 @@ public class XMLComparator {
         }
         return map;
     }
-    
     /**
-     * Construction d'une chaine XML néttoyée
-     * On enleve les espaces multiples, les retour à la ligne, les tabulations
+     * Construction d'une chaine XML néttoyée.
+     * On enleve les espaces multiples, les retour à la ligne, les tabulations.
      * @param string Chaîne à nettoyer
      * @return Chaîne nettoyée
      */

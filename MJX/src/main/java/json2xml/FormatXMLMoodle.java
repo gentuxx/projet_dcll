@@ -22,7 +22,7 @@ import org.json.XML;
 
 /**
  * Classe permettant de générer un code XML à partir d'un objet JSON
- * L'objet JSON doit contenir des balises questions
+ * L'objet JSON doit contenir des balises questions.
  */
 public class FormatXMLMoodle {
     /**
@@ -62,7 +62,7 @@ public class FormatXMLMoodle {
 
     /**
      * Construit la question au format XML,
-     * @param contenu JSONObject du contenu d'une balise question
+     * @param contenu JSONObject du contenu d'une balise question.
      * @return Question au format XML
      * @throws JSONException Si il y a une erreur lors de l'accès à contenu
      */
@@ -151,7 +151,14 @@ public class FormatXMLMoodle {
 
     /**
      * Même principe que la baliseToAttribute(JSONObject [...]) mais sur un
-     * JSONArray, on répète le traitement sur toutes les valeurs du JSONArray
+     * JSONArray, on répète le traitement sur toutes les valeurs du JSONArray.
+     * @param contenu JSONObject contenant la balise à traiter
+     * @param balise Nom de la balise où on doit faire la modification
+     * Si la balise n'existe pas, on renvoie la chaîne vide
+     * @param balisesAConvertir Tableau des balises à convertir
+     * Si la balise n'existe pas, elle est ignorée
+     * @return Resultat du traitement au format XML
+     * @throws JSONException Si il y a une erreur lors de l'accès à contenu
      */
     private static String baliseToAttribute(final JSONArray contenu,
                                             final String balise,

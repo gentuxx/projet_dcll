@@ -68,12 +68,14 @@ public class Main {
                 System.exit(0);
             case 1:
                 if (!export(exportFormat.JSON)) {
-                    print("Un problème est survenu lors de la conversion XML -> JSON");
+                    print("Un problème est survenu "
+                            + "lors de la conversion XML -> JSON");
                 }
                 break;
             case 2:
                 if (!export(exportFormat.XML)) {
-                    print("Un problème est survenu lors de la conversion JSON -> XML");
+                    print("Un problème est survenu "
+                            + "lors de la conversion JSON -> XML");
                 }
                 break;
             default:
@@ -86,15 +88,15 @@ public class Main {
      * Fonction servant à créer un nouveau fichier à partir d'un
      * fichier qui sera demandé par une dialogue box.
      *
-     * Output voulu : JSON	-> input demandé XML
-     * Output voulu : XML	-> input demandé JSON
+     * Output voulu : JSON -> input demandé XML
+     * Output voulu : XML -> input demandé JSON
      *
      * @param choice format de sortie voulue
      * @return true si tout c'est bien passé, false sinon
      */
-    private static boolean export(exportFormat choise) {
-    	//Variable utilisées dans tout les cas
-    	//Pour la dialogue
+    private static boolean export(exportFormat choice) {
+        //Variable utilisées dans tout les cas
+        //Pour la dialogue
         JFileChooser dialogue;
         FileNameExtensionFilter filter;
         //Pour les opération de fichier
@@ -102,12 +104,11 @@ public class Main {
         String strToConvert;
         String strConverted;
         PrintWriter pr;
-        
-    	switch (choise) {
-    	case JSON:
-    		dialogue = new JFileChooser();
+        switch (choice) {
+        case JSON:
+            dialogue = new JFileChooser();
             //On autorise seulement les fichiers xml
-    		filter = new FileNameExtensionFilter("Fichiers xml", "xml");
+            filter = new FileNameExtensionFilter("Fichiers xml", "xml");
             dialogue.setFileFilter(filter);
             dialogue.setAcceptAllFileFilterUsed(false);
             dialogue.setDialogTitle("Importation du fichier XML Moodle");
@@ -116,8 +117,8 @@ public class Main {
                 == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
             } else {
-            	print("Export annulé.\n");
-            	return true;
+                print("Export annulé.\n");
+                return true;
             }
             //objet pour la conversion
             Xml2Json xml_json_conv = new Xml2Json();
@@ -150,9 +151,9 @@ public class Main {
             print("Conversion terminée, résultat dans "
                    + jsonResult.getAbsolutePath()
                    + "\n");
-    		return true;
-    	case XML:
-    		dialogue = new JFileChooser();
+            return true;
+        case XML:
+            dialogue = new JFileChooser();
             //On autorise seulement les fichiers json
             filter = new FileNameExtensionFilter("Fichiers json", "json");
             dialogue.setFileFilter(filter);
@@ -162,56 +163,55 @@ public class Main {
                 == JFileChooser.APPROVE_OPTION) {
                 fichier = dialogue.getSelectedFile();
             } else {
-            	print("Export annulé.\n");
-            	return true;
+                print("Export annulé.\n");
+                return true;
             }
-    		//objet pour la conversion
-    		Json2Xml json_xml_conv = new Json2Xml();
+            //objet pour la conversion
+            Json2Xml json_xml_conv = new Json2Xml();
             //Récuperation du contenu du fichier .json
             strToConvert = recupDataFichier(fichier);
             //Conversion du JSON en XML
             try {
-				strConverted = json_xml_conv.conversion(strToConvert);
-			} catch (Exception e1) {
-				e1.printStackTrace();
-        		return false;
-			}
+                strConverted = json_xml_conv.conversion(strToConvert);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+                return false;
+            }
             //Création du fichier .xml
             File xmlResult = new File(
                     fichier.getAbsolutePath().substring(
                            0, fichier.getAbsolutePath().length() - 5)
                            + ".xml");
             try {
-            	xmlResult.createNewFile();
+                xmlResult.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
-        		return false;
+                return false;
             }
             //Ecriture de la chaine xml dans le fichier .xml
             try {
-            	pr = new PrintWriter(xmlResult);
-	            for (int i = 0; i < strConverted.length(); i++) {
-	            	pr.print(strConverted.charAt(i));
-	            }
-	            pr.close();
+                pr = new PrintWriter(xmlResult);
+                for (int i = 0; i < strConverted.length(); i++) {
+                    pr.print(strConverted.charAt(i));
+                }
+                pr.close();
             } catch (FileNotFoundException e) {
-            	e.printStackTrace();
-        		return false;
+                e.printStackTrace();
+                return false;
             }
             print("Conversion terminée, résultat dans "
                    + xmlResult.getAbsolutePath()
                    + "\n");
-    		return true;
-    	default :
-    		print("Format d'export demandé invalide.\n");
-    		break;
-    	}
-		return false;
+            return true;
+        default :
+            print("Format d'export demandé invalide.\n");
+            break;
+        }
+        return false;
     }
-    
     /**
      * Récupère le contenu d'un fichier xml et le retourne sous forme de chaîne.
-     * 
+     *
      * @param f le fichier dont on veut récupérer le contenu
      * @return le contenu du fichier
      */
