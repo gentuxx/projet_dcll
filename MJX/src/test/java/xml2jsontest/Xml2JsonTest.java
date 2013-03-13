@@ -1,11 +1,13 @@
 package xml2jsontest;
 
 import static org.junit.Assert.*;
+import json2xml.Json2Xml;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import tools.XMLComparator;
 import xml2json.Xml2Json;
 
 public class Xml2JsonTest {
@@ -458,6 +460,11 @@ public class Xml2JsonTest {
 	public void conversionTest() {
 		try {
 			stringJson = new Xml2Json().conversion(stringXML);
+			System.out.println(stringJson);
+			stringJson = new Json2Xml().conversion(stringJson);
+			
+			// On teste XML -> JSon -> XML
+			assertTrue(XMLComparator.compare(stringJson, stringXML));
 		} catch(Exception e) {
             assertTrue(false);
 		}
